@@ -2,6 +2,8 @@ package com.cice.gestionnoticias.service;
 
 import com.cice.gestionnoticias.controller.dto.NoticiaDTO;
 
+import java.util.List;
+
 /**
  * Interfaz que contendra los metodos de la logica de negocio para el resource Noticias
  */
@@ -14,4 +16,26 @@ public interface NoticiasService {
      * @return NoticiaDTO con el ID unico
      */
     NoticiaDTO crearNoticia(NoticiaDTO noticia);
+
+    /**
+     * Metodo que devolverá un objeto noticiaDTO siempre que se encuentre el id en la DB
+     *
+     * @param id de la noticia
+     * @return NoticiaDTO
+     */
+    NoticiaDTO buscarNoticiaById(Long id);
+
+    /**
+     * Metodo que devuelve una lista con todos las noticias disponibles en DB
+     *
+     * @return List<NoticiaDTO>
+     */
+    List<NoticiaDTO> getAllNoticias();
+
+    /**
+     * Metodo que elimina una noticia del recurso en base a un id
+     *
+     * @param id
+     */
+    void eliminarNoticiaById(Long id);
 }
