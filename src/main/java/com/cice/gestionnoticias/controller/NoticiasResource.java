@@ -5,10 +5,7 @@ import com.cice.gestionnoticias.service.NoticiasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *  Clase resource de Noticias.
@@ -47,7 +44,8 @@ public class NoticiasResource {
      * @param id
      * @return
      */
-    public ResponseEntity<NoticiaDTO> getNoticiasById(Long id){
+    @RequestMapping(path = "/noticias/{id}", method = RequestMethod.GET)
+    public ResponseEntity<NoticiaDTO> getNoticiasById(@RequestParam(name = "id") Long id){
         return null;
     }
 
