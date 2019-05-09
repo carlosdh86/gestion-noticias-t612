@@ -38,4 +38,19 @@ public interface NoticiasService {
      * @param id
      */
     void eliminarNoticiaById(Long id);
+
+    /**
+     * Metodo para actualizar una noticia en base a los datos recibidos y un id de identificación
+     * @param id
+     * @param noticiaDTO
+     * @return
+     */
+    NoticiaDTO actualizarNoticiaById(Long id, NoticiaDTO noticiaDTO);
+
+    /**
+     * Metodo que actualizara una noticia de manera idempotente en DB
+     * @param noticiaDTO
+     * @return
+     */
+    NoticiaDTO actualizarNoticia(NoticiaDTO noticiaDTO);
 }

@@ -3,7 +3,6 @@ package com.cice.gestionnoticias.controller;
 import com.cice.gestionnoticias.controller.dto.NoticiaDTO;
 import com.cice.gestionnoticias.service.NoticiasService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,8 +96,27 @@ public class NoticiasResource {
     public ResponseEntity<NoticiaDTO> actualizarNoticiaById(@PathVariable(name = "id") Long id, @RequestBody NoticiaDTO noticiaDTO){
         ResponseEntity<NoticiaDTO> responseDTO = null;
 
-        //TODO: llamar al servicio
+        NoticiaDTO noticiaActualizada = noticiasService.actualizarNoticiaById(id, noticiaDTO);
+        responseDTO = ResponseEntity.ok(noticiaActualizada);
 
+        return responseDTO;
+    }
+
+    /**
+     * Metodo que actualiza de forma idempotente una noticia en DB
+     *
+     * @param noticia
+     * @return
+     */
+    @RequestMapping(path = "/noticias", method = RequestMethod.PUT)
+    public ResponseEntity<NoticiaDTO> actualizarNoticia(@RequestBody NoticiaDTO noticia){
+        ResponseEntity<NoticiaDTO> responseDTO = null;
+        NoticiaDTO noticiaDTO = noticiasService.actualizarNoticia(noticia);
+        if(noticiaDTO != null){
+            responseDTO = ResponseEntity.ok(noticiaDTO);
+        } else {
+            responseDTO = ResponseEntity.badRequest().build();
+        }
         return responseDTO;
     }
 
