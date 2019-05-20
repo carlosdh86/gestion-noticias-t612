@@ -100,6 +100,4 @@ public class NoticiasServiceImpl implements NoticiasService {
                 !StringUtils.isEmpty(noticia.getAutor()) &&
                 !StringUtils.isEmpty(noticia.getFecha());
     }
-
-
 }
