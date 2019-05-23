@@ -29,15 +29,23 @@ public class NoticiasResource {
      * @param noticia DTO con la información de la noticia para dar de alta en el sistema
      * @return ResponseEntity<NoticiaDTO>
      */
-    @ApiOperation(value = "Metodo para crear noticias", httpMethod = "POST")
+    @ApiOperation(value = "Metodo para crear noticias", httpMethod = "POST", response = ResponseEntity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Noticia creada", response = ResponseEntity.class),
-            @ApiResponse(code = 400, message = "Bad request. Faltan campos obligatorios", response = ResponseEntity.class),
+            @ApiResponse(
+                    code = 201,
+                    message = "Noticia creada",
+                    response = ResponseEntity.class
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Bad request. Faltan campos obligatorios",
+                    response = ResponseEntity.class
+            ),
             @ApiResponse(code = 401, message = "operacion no autorizada", response = ResponseEntity.class)
     })
     @RequestMapping(path = "/noticias", method = RequestMethod.POST)
     public ResponseEntity<NoticiaDTO> crearNoticias(
-            @ApiParam(value = "", required = true) @RequestBody NoticiaDTO noticia
+            @ApiParam(value = "Objeto Noticia", required = true) @RequestBody NoticiaDTO noticia
     ){
         ResponseEntity<NoticiaDTO> response = null;
         if(validateNoticia(noticia)){
@@ -56,8 +64,14 @@ public class NoticiasResource {
      * @param id
      * @return
      */
+    @ApiOperation(value = "Recuperamos una noticia en base a un id dado", httpMethod = "GET", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 400, message = "Peticion no valida"),
+            @ApiResponse(code = 404, message = "Noticia no encontrada")
+    })
     @RequestMapping(path = "/noticias/{id}", method = RequestMethod.GET)
-    public ResponseEntity<NoticiaDTO> getNoticiasById(@PathVariable(name = "id") Long id){
+    public ResponseEntity<NoticiaDTO> getNoticiasById(@ApiParam(value = "Id de la noticia", required = true) @PathVariable(name = "id") Long id) {
         ResponseEntity<NoticiaDTO> response = null;
 
         NoticiaDTO noticiaDTO = noticiasService.buscarNoticiaById(id);
@@ -74,6 +88,11 @@ public class NoticiasResource {
      *
      * @return
      */
+    @ApiOperation(value = "Recuperamos todas las noticias almacenadas en DB", httpMethod = "GET", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 400, message = "Peticion no valida")
+    })
     @RequestMapping(path = "/noticias", method = RequestMethod.GET)
     public ResponseEntity<List<NoticiaDTO>> getAllNoticias(){
         ResponseEntity<List<NoticiaDTO>> response = null;
@@ -89,8 +108,14 @@ public class NoticiasResource {
      * @param id
      * @return
      */
+    @ApiOperation(value = "Eliminar una noticia almacenada en DB dado un id", httpMethod = "DELETE", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Acceptado"),
+            @ApiResponse(code = 400, message = "Peticion no valida"),
+            @ApiResponse(code = 404, message = "Noticia no encontrada")
+    })
     @RequestMapping(path = "/noticias/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity eliminarNoticiaById(@PathVariable(name = "id") Long id){
+    public ResponseEntity eliminarNoticiaById(@ApiParam(value = "Id de la noticia", required = true) @PathVariable(name = "id") Long id) {
         noticiasService.eliminarNoticiaById(id);
         return ResponseEntity.accepted().build();
     }
@@ -102,8 +127,16 @@ public class NoticiasResource {
      * @param noticiaDTO
      * @return
      */
+    @ApiOperation(value = "Actualizar una noticias almacenada en DB", httpMethod = "PATCH", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 400, message = "Peticion no valida"),
+            @ApiResponse(code = 404, message = "Noticia no encontrada")
+    })
     @RequestMapping(path = "/noticias/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<NoticiaDTO> actualizarNoticiaById(@PathVariable(name = "id") Long id, @RequestBody NoticiaDTO noticiaDTO){
+    public ResponseEntity<NoticiaDTO> actualizarNoticiaById(
+            @ApiParam(value = "Identificador de la noticia", required = true) @PathVariable(name = "id") Long id,
+            @ApiParam(value = "Datos para acutializar la noticia", required = true) @RequestBody NoticiaDTO noticiaDTO) {
         ResponseEntity<NoticiaDTO> responseDTO = null;
 
         NoticiaDTO noticiaActualizada = noticiasService.actualizarNoticiaById(id, noticiaDTO);
@@ -118,8 +151,14 @@ public class NoticiasResource {
      * @param noticia
      * @return
      */
+    @ApiOperation(value = "Actualizar/Crear una noticia almacenada en DB", httpMethod = "PUT", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 202, message = "Acceptado"),
+            @ApiResponse(code = 400, message = "Peticion no valida")
+    })
     @RequestMapping(path = "/noticias", method = RequestMethod.PUT)
-    public ResponseEntity<NoticiaDTO> actualizarNoticia(@RequestBody NoticiaDTO noticia){
+    public ResponseEntity<NoticiaDTO> actualizarNoticia(@ApiParam(value = "Cuerpo de la noticia a actualizar", required = true) @RequestBody NoticiaDTO noticia) {
         ResponseEntity<NoticiaDTO> responseDTO = null;
         NoticiaDTO noticiaDTO = noticiasService.actualizarNoticia(noticia);
         if(noticiaDTO != null){

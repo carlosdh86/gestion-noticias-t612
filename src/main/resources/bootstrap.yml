@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: cice-gestion-noticias
+
+  cloud:
+    config:
+      uri: http://localhost:8888
